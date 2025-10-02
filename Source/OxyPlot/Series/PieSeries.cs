@@ -61,6 +61,7 @@ namespace OxyPlot.Series
             this.OutsideLabelFormat = "{2:0} %";
             this.InsideLabelColor = OxyColors.Automatic;
             this.InsideLabelFormat = "{1}";
+            this.AreTicksDrawn = true;
             this.TickDistance = 0;
             this.TickRadialLength = 6;
             this.TickHorizontalLength = 8;
@@ -186,6 +187,11 @@ namespace OxyPlot.Series
         /// </summary>
         /// <value>The stroke thickness.</value>
         public double StrokeThickness { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether whether ticks are drawn from the pie slice to the outside label.
+        /// </summary>
+        public bool AreTicksDrawn { get; set; }
 
         /// <summary>
         /// Gets or sets the distance from the edge of the pie slice to the tick line.
@@ -349,7 +355,10 @@ namespace OxyPlot.Series
                     var tp2 = new ScreenPoint(tp1.X + (this.TickHorizontalLength * sign), tp1.Y);
 
                     // draw the tick line with the same color as the text
-                    rc.DrawLine(new[] { tp0, tp1, tp2 }, this.ActualTextColor, 1, this.EdgeRenderingMode, null, LineJoin.Bevel);
+                    if (this.AreTicksDrawn)
+                    {
+                        rc.DrawLine(new[] { tp0, tp1, tp2 }, this.ActualTextColor, 1, this.EdgeRenderingMode, null, LineJoin.Bevel);
+                    }
 
                     // label
                     var labelPosition = new ScreenPoint(tp2.X + (this.TickLabelDistance * sign), tp2.Y);
